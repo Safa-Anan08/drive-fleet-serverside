@@ -11,6 +11,7 @@ router.get("/", async (req, res) => {
     const cars = await Car.find().sort({ createdAt: -1 });
     res.json(cars);
   } catch {
+     console.log(error);
     res.status(500).json({
       message: "Failed to fetch cars",
     });
@@ -30,6 +31,7 @@ router.post("/", protect, async (req, res) => {
 
     res.status(201).json(car);
   } catch {
+     console.log(error);
     res.status(500).json({
       message: "Failed to add car",
     });
@@ -46,6 +48,7 @@ router.get("/my", protect, async (req, res) => {
 
     res.json(cars);
   } catch {
+     console.log(error);
     res.status(500).json({
       message: "Failed to fetch your cars",
     });
@@ -59,6 +62,7 @@ router.get("/:id", async (req, res) => {
     const car = await Car.findById(req.params.id);
 
     if (!car) {
+       console.log(error);
       return res.status(404).json({
         message: "Car not found",
       });
@@ -66,6 +70,7 @@ router.get("/:id", async (req, res) => {
 
     res.json(car);
   } catch {
+     console.log(error);
     res.status(500).json({
       message: "Failed to fetch car",
     });

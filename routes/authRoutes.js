@@ -47,7 +47,9 @@ router.post("/login", async (req, res) => {
       id: user._id,
       name: user.name,
       email: user.email,
-      role: user.role
+      photo: user.photo,
+      location: user.location,
+      role: user.role,
     }
   });
 });
@@ -72,5 +74,41 @@ router.put("/profile", protect, async (req, res) => {
 
   res.json(user);
 });
+
+router.post("/google", async (req, res) => {
+  const { name, email, photo } = req.body;
+
+  let user = await User.findOne({ email });
+
+  if (!user) {
+    user = await User.create({
+      name,
+      email,
+      photo,
+      password: "", 
+      location: "",
+      role: "user",
+    });
+  }
+
+  const token = jwt.sign(
+    { id: user._id, role: user.role },
+    process.env.JWT_SECRET,
+    { expiresIn: "7d" }
+  );
+
+  res.json({
+    token,
+    user: {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      photo: user.photo,
+      location: user.location,
+      role: user.role,
+    },
+  });
+});
+
 
 export default router;

@@ -7,7 +7,12 @@ const userSchema = new mongoose.Schema({
     unique: true
   },
   photo: String,
-  password: String
+  password: String,
+   location: {
+    type: String,
+    default: "",
+  },
+
 });
 
 const User = mongoose.model("User", userSchema);
