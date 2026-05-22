@@ -8,7 +8,8 @@ const router = express.Router();
 
 
 router.post("/register", async (req, res) => {
-  const { name, email, password } = req.body;
+  console.log(req.body);
+  const { name, email, password, photo, location } = req.body;
 
   const exist = await User.findOne({ email });
   if (exist) return res.status(400).json({ message: "User exists" });
@@ -19,9 +20,11 @@ router.post("/register", async (req, res) => {
     name,
     email,
     password: hashed,
+     photo,
+    location: location || "",
     role: "user"
   });
-
+console.log(req.body);
   res.json(user);
 });
 

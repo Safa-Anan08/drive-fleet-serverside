@@ -6,15 +6,24 @@ const userSchema = new mongoose.Schema({
     type: String,
     unique: true
   },
-  photo: String,
+  photo: {
+  type: String,
+  default: "",
+},
   password: String,
    location: {
     type: String,
     default: "",
   },
+   role: {
+    type: String,
+    default: "user",
+  },
 
 });
 
-const User = mongoose.model("User", userSchema);
+const User =
+  mongoose.models.User ||
+  mongoose.model("User", userSchema);
 
 export default User;
